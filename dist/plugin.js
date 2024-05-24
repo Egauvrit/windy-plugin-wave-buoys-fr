@@ -9,8 +9,8 @@ const __pluginConfig =  {
   "desktopUI": "rhpane",
   "mobileUI": "fullscreen",
   "desktopWidth": 600,
-  "built": 1716559592376,
-  "builtReadable": "2024-05-24T14:06:32.376Z",
+  "built": 1716560293694,
+  "builtReadable": "2024-05-24T14:18:13.694Z",
   "screenshot": "screenshot.jpg"
 };
 
@@ -697,7 +697,7 @@ var buoyInfo = [
 		name: "Belle-Ile",
 		lat: "47.28",
 		lon: "-3.28",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTkwMw=="
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTYwMg=="
 	},
 	{
 		ID: "04403",
