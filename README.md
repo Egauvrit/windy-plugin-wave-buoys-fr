@@ -4,3 +4,5 @@
 
 A Windy plugin that "should" displays data from French wave buoys operated by Cerema.
 
+
+![example](src/screenshot.jpg)
