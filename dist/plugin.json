@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "title": "Wave Buoys (FR)",
   "icon": "🌊",
-  "description": "This plugin gives the wave buoys data from CEREMA.",
+  "description": "This plugin gives the french wave buoys data from CEREMA.",
   "author": "Edouard Gauvrit",
   "repository": "git+https://github.com/windycom/windy-plugins.git",
   "desktopUI": "rhpane",
   "mobileUI": "fullscreen",
   "desktopWidth": 600,
-  "built": 1715331720518,
-  "builtReadable": "2024-05-10T09:02:00.518Z",
+  "built": 1716544897046,
+  "builtReadable": "2024-05-24T10:01:37.046Z",
   "screenshot": "screenshot.jpg"
 }

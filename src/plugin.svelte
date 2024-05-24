@@ -4,7 +4,6 @@
     import { onMount, onDestroy } from 'svelte';
     import config from './pluginConfig';
     import buoyInfo from './buoys';
-    import Papa from 'papaparse'; 
 
     const { title } = config;
 
@@ -13,47 +12,51 @@
     let buoyMarkers = [];
     let buoyData = [];
 
-    // Fetch CSV data asynchronously
-    async function fetchCSVData() {
+    // Fetch data asynchronously
+    let campaignData = [];
+
+    async function fetchCampaignData() {
         try {
-            const response = await fetch('https://drive.google.com/file/d/1a7DnLZ9B2xRejXgbnGV9Z15C4qLyl3qr/view?ths=true'); // Change 'Data.csv' to the actual path of your CSV file
-            console.log('Fetch response:', response);
-            
+            const response = await fetch('https://www.allosurf.net/meteo/live/les-pierres-noires-bouee-fr-02911.html');
             if (!response.ok) {
-                throw new Error(`Failed to fetch CSV file: ${response.status} ${response.statusText}`);
+                throw new Error(`Failed to fetch page: ${response.status} ${response.statusText}`);
             }
+
+            const htmlText = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
             
-            const csvText = await response.text();
-            console.log('CSV text:', csvText);
-            
-            const parsedData = Papa.parse(csvText, { delimiter: ';', header: true }).data;
-            console.log('Parsed CSV data:', parsedData);
-            
-            buoyData = parsedData;
+            // Example of extracting data based on the structure of the HTML
+            // Adjust selectors according to the actual HTML structure of the page
+            const tableRows = doc.querySelectorAll('table tr');
+            campaignData = Array.from(tableRows).map(row => {
+                const cells = row.querySelectorAll('td');
+                return Array.from(cells).map(cell => cell.textContent.trim());
+            });
+
         } catch (error) {
-            console.error('Error fetching or parsing CSV data:', error);
+            console.error('Error fetching campaign data:', error);
         }
     }
-
     
     onMount(() => {
         // Define custom icon for arrow marker
-        const arrowIcon = L.icon({
+        const buoyIcon = L.icon({
             iconUrl: 'https://cdn-icons-png.flaticon.com/512/1816/1816116.png', // URL to your arrow icon image
             iconSize: [22, 22], // Size of the icon
-            iconAnchor: [10, 4] // Anchor point of the icon
+            iconAnchor: [11, 11] // Anchor point of the icon
         });
 
         // Loop through each buoy data and add a marker for each
         buoyInfo.forEach(buoy => {
             const { ID, name, lat, lon } = buoy;
-            const buoyMarker = L.marker([lat, lon], {icon: arrowIcon}).addTo(map);
+            const buoyMarker = L.marker([lat, lon], {icon: buoyIcon}).addTo(map);
             buoyMarker.bindPopup(`<b>${name}</b>`).openPopup(); // Popup with buoy name
             buoyMarkers.push(buoyMarker);
         });
         
-        // Fetch and parse CSV data
-        fetchCSVData();
+        // Fetch and parse data
+        fetchCampaignData();
 
         // Set the map location
         map.setView([47,2],6)
@@ -75,24 +78,19 @@
 <style lang="less">
     p {
         line-height: 1.8;
-        color: rgb(251, 255, 0);
-    }
-    code {
-        color: rgb(139, 100, 211);
-    }
-    img {
-        display: block;
-        width: 70%;
-        margin: 0 auto;
+        color: rgb(231, 214, 166);
     }
 
+    img {
+        display: block;
+        margin: 0 auto;
+    }
     /* Table styling */
     table {
         width: 100%;
         border-collapse: collapse;
         font-family: Arial, sans-serif;
     }
-
     /* Header row styling */
     th {
         background-color: #8f8f8f;
@@ -100,14 +98,12 @@
         text-align: left;
         padding: 8px;
     }
-
     /* Data row styling */
     td {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-
     /* Hover effect */
     tr:hover {
         background-color: #e9961a;
@@ -125,12 +121,17 @@
     { title }
     </div>
 
-    <p class="mt-30 mb-30">
-        <img src="https://cdn-icons-png.flaticon.com/512/1816/1816116.png" alt="Buoy" />
+    <p class="mt-5 mb-20">
+        <img src="https://cdn-icons-png.flaticon.com/512/1816/1816116.png" alt="Buoy" width="128"/>
+        <!-- <img src="https://candhis.cerema.fr/utils/images/HoulographePetit.jpg" alt="Buoy" /> -->
     </p>
 
+    <h3>
+        🚧 Work in progress! 🚧
+    </h3> 
+
     <p class="size-l">
-        Congratulations, you have just launched your first Windy plugin!
+        A Windy plugin that "should" displays data from French wave buoys operated by Cerema.
     </p>
 
     <hr />
@@ -165,5 +166,11 @@
     {:else}
     <p>No data available</p>
     {/if}
+
+    <hr />
     
+    <p class="mt-20 mb-5">
+        <img src="https://urbanvitaliz.fr/static/img/partners/logo_cerema.png" alt="Cerema" width="256"/>
+    </p>
+
 </section>
