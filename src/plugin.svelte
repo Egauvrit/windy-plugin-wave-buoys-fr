@@ -49,14 +49,14 @@
 
         // Loop through each buoy data and add a marker for each
         buoyInfo.forEach(buoy => {
-            const { ID, name, lat, lon } = buoy;
+            const { ID, name, lat, lon, href } = buoy;
             const buoyMarker = L.marker([lat, lon], {icon: buoyIcon}).addTo(map);
-            buoyMarker.bindPopup(`<b>${name}</b>`).openPopup(); // Popup with buoy name
+            buoyMarker.bindPopup(`<b>${name}</b><br><a href="${href}" target="_blank">More info</a>`);
             buoyMarkers.push(buoyMarker);
         });
         
         // Fetch and parse data
-        fetchCampaignData();
+        //fetchCampaignData()
 
         // Set the map location
         map.setView([47,2],6)
@@ -123,7 +123,6 @@
 
     <p class="mt-5 mb-20">
         <img src="https://cdn-icons-png.flaticon.com/512/1816/1816116.png" alt="Buoy" width="128"/>
-        <!-- <img src="https://candhis.cerema.fr/utils/images/HoulographePetit.jpg" alt="Buoy" /> -->
     </p>
 
     <h3>

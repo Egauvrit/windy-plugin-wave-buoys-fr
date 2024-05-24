@@ -9,8 +9,8 @@ const __pluginConfig =  {
   "desktopUI": "rhpane",
   "mobileUI": "fullscreen",
   "desktopWidth": 600,
-  "built": 1716545306791,
-  "builtReadable": "2024-05-24T10:08:26.791Z",
+  "built": 1716559592376,
+  "builtReadable": "2024-05-24T14:06:32.376Z",
   "screenshot": "screenshot.jpg"
 };
 
@@ -646,176 +646,205 @@ var buoyInfo = [
 	{
 		ID: "05903",
 		name: "Gravelines",
-		lat: 51.04,
-		lon: 2.07
+		lat: "51.04",
+		lon: "2.07",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTkwMw=="
 	},
 	{
 		ID: "08002",
 		name: "Baie de Somme",
-		lat: 50.25,
-		lon: 1.33
+		lat: "50.25",
+		lon: "1.33",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODAwMg=="
 	},
 	{
 		ID: "07610",
 		name: "Port d’Antifer",
-		lat: 49.66,
-		lon: 0.14
+		lat: "49.66",
+		lon: "0.14",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMA=="
 	},
 	{
 		ID: "07611",
 		name: "Le Havre – Nord du mouillage",
-		lat: 49.48,
-		lon: 0.01
+		lat: "49.48",
+		lon: "0.01",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMQ=="
 	},
 	{
 		ID: "07609",
 		name: "Le Havre – Haut du Sud-Ouest",
-		lat: 49.47,
-		lon: 0.08
+		lat: "49.47",
+		lon: "0.08",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYwOQ=="
 	},
 	{
 		ID: "05008",
 		name: "Cherboug",
-		lat: 49.69,
-		lon: -1.62
-	},
-	{
-		ID: "05602",
-		name: "Belle-Ile",
-		lat: 47.28,
-		lon: -3.28
-	},
-	{
-		ID: "04403",
-		name: "Plateau du Four",
-		lat: 47.24,
-		lon: -2.78
-	},
-	{
-		ID: "08505",
-		name: "Noirmoutier",
-		lat: 46.92,
-		lon: -2.47
-	},
-	{
-		ID: "08504",
-		name: "Ile d’Yeu Nord",
-		lat: 46.83,
-		lon: -2.29
-	},
-	{
-		ID: "01704",
-		name: "Oléron Large",
-		lat: 45.92,
-		lon: -1.83
-	},
-	{
-		ID: "01705",
-		name: "Royan",
-		lat: 45.61,
-		lon: -1.03
-	},
-	{
-		ID: "03302",
-		name: "Cap Ferret",
-		lat: 44.65,
-		lon: -1.45
-	},
-	{
-		ID: "06402",
-		name: "Anglet",
-		lat: 43.53,
-		lon: -1.61
-	},
-	{
-		ID: "06403",
-		name: "Saint-Jean-de-Luz",
-		lat: 43.41,
-		lon: -1.68
-	},
-	{
-		ID: "06601",
-		name: "Banyuls",
-		lat: 42.49,
-		lon: 3.17
-	},
-	{
-		ID: "01101",
-		name: "Leucate",
-		lat: 42.92,
-		lon: 3.12
-	},
-	{
-		ID: "03404",
-		name: "Sète",
-		lat: 43.37,
-		lon: 3.78
-	},
-	{
-		ID: "03001",
-		name: "Espiguette",
-		lat: 43.41,
-		lon: 4.16
-	},
-	{
-		ID: "01305",
-		name: "Le Planier",
-		lat: 43.21,
-		lon: 5.23
-	},
-	{
-		ID: "08302",
-		name: "Porquerolles",
-		lat: 42.97,
-		lon: 6.2
-	},
-	{
-		ID: 98000,
-		name: "Monaco",
-		lat: 43.71,
-		lon: 7.43
-	},
-	{
-		ID: "02B04",
-		name: "La Revellata",
-		lat: 42.57,
-		lon: 8.65
-	},
-	{
-		ID: "02B05",
-		name: "Alistro",
-		lat: 42.26,
-		lon: 9.64
-	},
-	{
-		ID: "02A01",
-		name: "Bonifacio",
-		lat: 41.32,
-		lon: 8.88
-	},
-	{
-		ID: 97501,
-		name: "Saint-Pierre et Miquelon",
-		lat: 46.7,
-		lon: -56.18
-	},
-	{
-		ID: 97801,
-		name: "Saint-Martin",
-		lat: 18.14,
-		lon: -62.99
-	},
-	{
-		ID: 97403,
-		name: "Rivière des Galets",
-		lat: -20.94,
-		lon: 55.28
+		lat: "49.69",
+		lon: "-1.62",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTAwOA=="
 	},
 	{
 		ID: "02911",
 		name: "Les Pierres Noires",
-		lat: 48.29,
-		lon: -4.97
+		lat: "48.29",
+		lon: "-4.97",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMjkxMQ=="
+	},
+	{
+		ID: "05602",
+		name: "Belle-Ile",
+		lat: "47.28",
+		lon: "-3.28",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTkwMw=="
+	},
+	{
+		ID: "04403",
+		name: "Plateau du Four",
+		lat: "47.24",
+		lon: "-2.78",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNDQwMw=="
+	},
+	{
+		ID: "08505",
+		name: "Noirmoutier",
+		lat: "46.92",
+		lon: "-2.47",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNQ=="
+	},
+	{
+		ID: "08504",
+		name: "Ile d’Yeu Nord",
+		lat: "46.83",
+		lon: "-2.29",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNA=="
+	},
+	{
+		ID: "01704",
+		name: "Oléron Large",
+		lat: "45.92",
+		lon: "-1.83",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNA=="
+	},
+	{
+		ID: "01705",
+		name: "Royan",
+		lat: "45.61",
+		lon: "-1.03",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNQ=="
+	},
+	{
+		ID: "03302",
+		name: "Cap Ferret",
+		lat: "44.65",
+		lon: "-1.45",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzMwMg=="
+	},
+	{
+		ID: "06402",
+		name: "Anglet",
+		lat: "43.53",
+		lon: "-1.61",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMg=="
+	},
+	{
+		ID: "06403",
+		name: "Saint-Jean-de-Luz",
+		lat: "43.41",
+		lon: "-1.68",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMw=="
+	},
+	{
+		ID: "06601",
+		name: "Banyuls",
+		lat: "42.49",
+		lon: "3.17",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjYwMQ=="
+	},
+	{
+		ID: "01101",
+		name: "Leucate",
+		lat: "42.92",
+		lon: "3.12",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTEwMQ=="
+	},
+	{
+		ID: "03404",
+		name: "Sète",
+		lat: "43.37",
+		lon: "3.78",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzQwNA=="
+	},
+	{
+		ID: "03001",
+		name: "Espiguette",
+		lat: "43.41",
+		lon: "4.16",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzAwMQ=="
+	},
+	{
+		ID: "01305",
+		name: "Le Planier",
+		lat: "43.21",
+		lon: "5.23",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTMwNQ=="
+	},
+	{
+		ID: "08302",
+		name: "Porquerolles",
+		lat: "42.97",
+		lon: "6.2",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODMwMg=="
+	},
+	{
+		ID: "98000",
+		name: "Monaco",
+		lat: "43.71",
+		lon: "7.43",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA=="
+	},
+	{
+		ID: "02B04",
+		name: "La Revellata",
+		lat: "42.57",
+		lon: "8.65",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNA=="
+	},
+	{
+		ID: "02B05",
+		name: "Alistro",
+		lat: "42.26",
+		lon: "9.64",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNQ=="
+	},
+	{
+		ID: "02A01",
+		name: "Bonifacio",
+		lat: "41.32",
+		lon: "8.88",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkEwMQ=="
+	},
+	{
+		ID: "97501",
+		name: "Saint-Pierre et Miquelon",
+		lat: "46.7",
+		lon: "-56.18",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw=="
+	},
+	{
+		ID: "97801",
+		name: "Saint-Martin",
+		lat: "18.14",
+		lon: "-62.99",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA=="
+	},
+	{
+		ID: "97403",
+		name: "Rivière des Galets",
+		lat: "-20.94",
+		lon: "55.28",
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw=="
 	}
 ];
 
@@ -831,7 +860,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (143:4) {:else}
+// (141:4) {:else}
 function create_else_block(ctx) {
 	let p;
 
@@ -853,7 +882,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (116:4) {#if buoyData.length > 0}
+// (114:4) {#if buoyData.length > 0}
 function create_if_block(ctx) {
 	let table;
 	let thead;
@@ -926,7 +955,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (130:8) {#each buoyData as buoy}
+// (128:8) {#each buoyData as buoy}
 function create_each_block(ctx) {
 	let tr;
 	let td0;
@@ -1113,29 +1142,6 @@ function instance($$self) {
 	const { title } = config;
 	let buoyMarkers = [];
 	let buoyData = [];
-	let campaignData = [];
-
-	async function fetchCampaignData() {
-		try {
-			const response = await fetch('https://www.allosurf.net/meteo/live/les-pierres-noires-bouee-fr-02911.html');
-
-			if (!response.ok) {
-				throw new Error(`Failed to fetch page: ${response.status} ${response.statusText}`);
-			}
-
-			const htmlText = await response.text();
-			const parser = new DOMParser();
-			const doc = parser.parseFromString(htmlText, 'text/html');
-			const tableRows = doc.querySelectorAll('table tr');
-
-			campaignData = Array.from(tableRows).map(row => {
-				const cells = row.querySelectorAll('td');
-				return Array.from(cells).map(cell => cell.textContent.trim());
-			});
-		} catch(error) {
-			console.error('Error fetching campaign data:', error);
-		}
-	}
 
 	onMount(() => {
 		const buoyIcon = L.icon({
@@ -1145,13 +1151,12 @@ function instance($$self) {
 		});
 
 		buoyInfo.forEach(buoy => {
-			const { ID, name, lat, lon } = buoy;
+			const { ID, name, lat, lon, href } = buoy;
 			const buoyMarker = L.marker([lat, lon], { icon: buoyIcon }).addTo(map);
-			buoyMarker.bindPopup(`<b>${name}</b>`).openPopup();
+			buoyMarker.bindPopup(`<b>${name}</b><br><a href="${href}" target="_blank">More info</a>`);
 			buoyMarkers.push(buoyMarker);
 		});
 
-		fetchCampaignData();
 		map.setView([47, 2], 6);
 	});
 
