@@ -13,29 +13,49 @@
     let buoyData = [];
 
     // Fetch data asynchronously
-    let campaignData = [];
+    //let campaignData = [];
 
-    async function fetchCampaignData() {
+    import axios from 'axios';
+    import cheerio from 'cheerio';  
+
+    // URL of the page you want to scrape
+    const url = 'https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMjkxMQ==';
+
+    async function fetchData() {
         try {
-            const response = await fetch('https://www.allosurf.net/meteo/live/les-pierres-noires-bouee-fr-02911.html');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch page: ${response.status} ${response.statusText}`);
-            }
+            // Fetch the HTML content from the webpage
+            const { data } = await axios.get(url);
 
-            const htmlText = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            
-            // Example of extracting data based on the structure of the HTML
-            // Adjust selectors according to the actual HTML structure of the page
-            const tableRows = doc.querySelectorAll('table tr');
-            campaignData = Array.from(tableRows).map(row => {
-                const cells = row.querySelectorAll('td');
-                return Array.from(cells).map(cell => cell.textContent.trim());
+            // Load the HTML into cheerio
+            const $ = cheerio.load(data);
+
+            // Initialize an array to store the scraped data
+            const buoyData = [];
+
+            // Select the rows in the table containing the wave data
+            $('table tbody tr').each((index, element) => {
+                const row = $(element);
+                const date = row.find('td').eq(0).text().trim();
+                const waveHeight = row.find('td').eq(1).text().trim();
+                const wavePeriod = row.find('td').eq(2).text().trim();
+                const waveDirection = row.find('td').eq(3).text().trim();
+                const waveTemperature = row.find('td').eq(4).text().trim();
+
+                // Push the data into the array
+                buoyData.push({
+                    date,
+                    waveHeight,
+                    wavePeriod,
+                    waveDirection,
+                    waveTemperature
+                });
             });
 
+            // Log the scraped data
+            console.log(buoyData);
+
         } catch (error) {
-            console.error('Error fetching campaign data:', error);
+            console.error('Error fetching data:', error);
         }
     }
     
@@ -56,7 +76,7 @@
         });
         
         // Fetch and parse data
-        //fetchCampaignData()
+        fetchData()
 
         // Set the map location
         map.setView([47,2],6)
