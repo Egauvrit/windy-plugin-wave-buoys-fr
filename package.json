@@ -30,7 +30,7 @@
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.6",
         "@types/geojson": "^7946.0.14",
-        "@windycom/plugin-devtools": "^1.0.9",
+        "@windycom/plugin-devtools": "^1.0.6",
         "axios": "^1.7.2",
         "cheerio": "^1.0.0-rc.12",
         "d3": "^7.8.5",
