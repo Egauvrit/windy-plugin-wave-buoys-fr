@@ -9,8 +9,8 @@ const __pluginConfig =  {
   "desktopUI": "rhpane",
   "mobileUI": "fullscreen",
   "desktopWidth": 600,
-  "built": 1725626705231,
-  "builtReadable": "2024-09-06T12:45:05.231Z",
+  "built": 1727269595394,
+  "builtReadable": "2024-09-25T13:06:35.394Z",
   "screenshot": "screenshot.png"
 };
 
@@ -158,6 +158,12 @@ function space() {
 }
 
 /**
+ * @returns {Text} */
+function empty() {
+	return text('');
+}
+
+/**
  * @param {EventTarget} node
  * @param {string} event
  * @param {EventListenerOrEventListenerObject} handler
@@ -197,6 +203,16 @@ function set_data(text, data) {
 	data = '' + data;
 	if (text.data === data) return;
 	text.data = /** @type {string} */ (data);
+}
+
+/**
+ * @returns {void} */
+function set_style(node, key, value, important) {
+	if (value == null) {
+		node.style.removeProperty(key);
+	} else {
+		node.style.setProperty(key, value, '');
+	}
 }
 
 /**
@@ -389,6 +405,11 @@ function flush_render_callbacks(fns) {
 const outroing = new Set();
 
 /**
+ * @type {Outro}
+ */
+let outros;
+
+/**
  * @param {import('./private.js').Fragment} block
  * @param {0 | 1} [local]
  * @returns {void}
@@ -397,6 +418,24 @@ function transition_in(block, local) {
 	if (block && block.i) {
 		outroing.delete(block);
 		block.i(local);
+	}
+}
+
+/**
+ * @param {import('./private.js').Fragment} block
+ * @param {0 | 1} local
+ * @param {0 | 1} [detach]
+ * @param {() => void} [callback]
+ * @returns {void}
+ */
+function transition_out(block, local, detach, callback) {
+	if (block && block.o) {
+		if (outroing.has(block)) return;
+		outroing.add(block);
+		outros.c.push(() => {
+			outroing.delete(block);
+		});
+		block.o(local);
 	}
 }
 
@@ -436,6 +475,11 @@ function ensure_array_like(array_like_or_iterator) {
 	return array_like_or_iterator?.length !== undefined
 		? array_like_or_iterator
 		: Array.from(array_like_or_iterator);
+}
+
+/** @returns {void} */
+function create_component(block) {
+	block && block.c();
 }
 
 /** @returns {void} */
@@ -657,256 +701,390 @@ var buoyInfo = [
 	{
 		ID: "05903",
 		name: "Gravelines",
-		lat: "51.04",
-		lon: "2.07",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTkwMw=="
+		lat: 51.04,
+		lon: 2.07,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTkwMw==",
+		orga: "CEREMA / EDF"
 	},
 	{
 		ID: "08002",
 		name: "Baie de Somme",
-		lat: "50.25",
-		lon: "1.33",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODAwMg=="
+		lat: 50.25,
+		lon: 1.33,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODAwMg==",
+		orga: "CEREMA"
 	},
 	{
 		ID: "07610",
 		name: "Port d’Antifer",
-		lat: "49.66",
-		lon: "0.14",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMA=="
+		lat: 49.66,
+		lon: 0.14,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMA==",
+		orga: "CEREMA / Grand Port Maritime du Havre"
 	},
 	{
 		ID: "07611",
 		name: "Le Havre – Nord du mouillage",
-		lat: "49.48",
-		lon: "0.01",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMQ=="
+		lat: 49.48,
+		lon: 0.01,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYxMQ==",
+		orga: "CEREMA / Grand Port Maritime du Havre"
 	},
 	{
 		ID: "07609",
 		name: "Le Havre – Haut du Sud-Ouest",
-		lat: "49.47",
-		lon: "0.08",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYwOQ=="
+		lat: 49.47,
+		lon: 0.08,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNzYwOQ==",
+		orga: "CEREMA / Grand Port Maritime du Havre"
 	},
 	{
 		ID: "05008",
 		name: "Cherboug",
-		lat: "49.69",
-		lon: "-1.62",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTAwOA=="
+		lat: 49.69,
+		lon: -1.62,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTAwOA==",
+		orga: "CEREMA / Ports Normands Associés"
 	},
 	{
 		ID: "02911",
 		name: "Les Pierres Noires",
-		lat: "48.29",
-		lon: "-4.97",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMjkxMQ=="
+		lat: 48.29,
+		lon: -4.97,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMjkxMQ==",
+		orga: "CEREMA / LOPS / Ifremer / SHOM"
 	},
 	{
 		ID: "05602",
 		name: "Belle-Ile",
-		lat: "47.28",
-		lon: "-3.28",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTYwMg=="
+		lat: 47.28,
+		lon: -3.28,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNTYwMg==",
+		orga: "CEREMA / École Centrale de Nantes"
 	},
 	{
 		ID: "04403",
 		name: "Plateau du Four",
-		lat: "47.24",
-		lon: "-2.78",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNDQwMw=="
+		lat: 47.24,
+		lon: -2.78,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNDQwMw==",
+		orga: "CEREMA / Grand Port Maritime de Nantes St-Nazaire / Ecole Centrale de Nantes"
 	},
 	{
 		ID: "08505",
 		name: "Noirmoutier",
-		lat: "46.92",
-		lon: "-2.47",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNQ=="
+		lat: 46.92,
+		lon: -2.47,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNQ==",
+		orga: "CEREMA / Département de la Vendée"
 	},
 	{
 		ID: "08504",
 		name: "Ile d’Yeu Nord",
-		lat: "46.83",
-		lon: "-2.29",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNA=="
+		lat: 46.83,
+		lon: -2.29,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODUwNA==",
+		orga: "CEREMA / Département de la Vendée"
 	},
 	{
 		ID: "01704",
 		name: "Oléron Large",
-		lat: "45.92",
-		lon: "-1.83",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNA=="
+		lat: 45.92,
+		lon: -1.83,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNA==",
+		orga: "CEREMA / Université de la Rochelle LIENSs"
 	},
 	{
 		ID: "01705",
 		name: "Royan",
-		lat: "45.61",
-		lon: "-1.03",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNQ=="
+		lat: 45.61,
+		lon: -1.03,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTcwNQ==",
+		orga: "CEREMA"
 	},
 	{
 		ID: "03302",
 		name: "Cap Ferret",
-		lat: "44.65",
-		lon: "-1.45",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzMwMg=="
+		lat: 44.65,
+		lon: -1.45,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzMwMg==",
+		orga: "CEREMA / Université de Bordeaux / SHOM"
 	},
 	{
 		ID: "06402",
 		name: "Anglet",
-		lat: "43.53",
-		lon: "-1.61",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMg=="
+		lat: 43.53,
+		lon: -1.61,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMg==",
+		orga: "CEREMA / Université de Pau"
 	},
 	{
 		ID: "06403",
 		name: "Saint-Jean-de-Luz",
-		lat: "43.41",
-		lon: "-1.68",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMw=="
+		lat: 43.41,
+		lon: -1.68,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjQwMw==",
+		orga: "CEREMA / Département des Pyrénées Atlantiques (LE64)"
 	},
 	{
 		ID: "06601",
 		name: "Banyuls",
-		lat: "42.49",
-		lon: "3.17",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjYwMQ=="
+		lat: 42.49,
+		lon: 3.17,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wNjYwMQ==",
+		orga: "CEREMA / DREAL Occitanie / Observatoire Océanologique de Banyuls"
 	},
 	{
 		ID: "01101",
 		name: "Leucate",
-		lat: "42.92",
-		lon: "3.12",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTEwMQ=="
+		lat: 42.92,
+		lon: 3.12,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTEwMQ==",
+		orga: "CEREMA / DREAL Languedoc Roussillon"
 	},
 	{
 		ID: "03404",
 		name: "Sète",
-		lat: "43.37",
-		lon: "3.78",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzQwNA=="
+		lat: 43.37,
+		lon: 3.78,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzQwNA==",
+		orga: "CEREMA / DREAL Occitanie"
 	},
 	{
 		ID: "03001",
 		name: "Espiguette",
-		lat: "43.41",
-		lon: "4.16",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzAwMQ=="
+		lat: 43.41,
+		lon: 4.16,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMzAwMQ==",
+		orga: "CEREMA / DREAL Languedoc Roussillon"
 	},
 	{
 		ID: "01305",
 		name: "Le Planier",
-		lat: "43.21",
-		lon: "5.23",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTMwNQ=="
+		lat: 43.21,
+		lon: 5.23,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMTMwNQ==",
+		orga: "CEREMA / Grand Port Maritime de Marseille"
 	},
 	{
 		ID: "08302",
 		name: "Porquerolles",
-		lat: "42.97",
-		lon: "6.2",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODMwMg=="
+		lat: 42.97,
+		lon: 6.2,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wODMwMg==",
+		orga: "CEREMA"
 	},
 	{
-		ID: "98000",
+		ID: 98000,
 		name: "Monaco",
-		lat: "43.71",
-		lon: "7.43",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA=="
+		lat: 43.71,
+		lon: 7.43,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA==",
+		orga: "CEREMA / Monaco Service des Travaux Publics"
 	},
 	{
 		ID: "02B04",
 		name: "La Revellata",
-		lat: "42.57",
-		lon: "8.65",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNA=="
+		lat: 42.57,
+		lon: 8.65,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNA==",
+		orga: "CEREMA / SHOM"
 	},
 	{
 		ID: "02B05",
 		name: "Alistro",
-		lat: "42.26",
-		lon: "9.64",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNQ=="
+		lat: 42.26,
+		lon: 9.64,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkIwNQ==",
+		orga: "CEREMA"
 	},
 	{
 		ID: "02A01",
 		name: "Bonifacio",
-		lat: "41.32",
-		lon: "8.88",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkEwMQ=="
+		lat: 41.32,
+		lon: 8.88,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD0wMkEwMQ==",
+		orga: "CEREMA"
 	},
 	{
-		ID: "97501",
+		ID: 97501,
 		name: "Saint-Pierre et Miquelon",
-		lat: "46.7",
-		lon: "-56.18",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw=="
+		lat: 46.7,
+		lon: -56.18,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw==",
+		orga: "CEREMA / DTAM 975"
 	},
 	{
-		ID: "97801",
+		ID: 97801,
 		name: "Saint-Martin",
-		lat: "18.14",
-		lon: "-62.99",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA=="
+		lat: 18.14,
+		lon: -62.99,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05ODAwMA==",
+		orga: "CEREMA"
 	},
 	{
-		ID: "97403",
+		ID: 97403,
 		name: "Rivière des Galets",
-		lat: "-20.94",
-		lon: "55.28",
-		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw=="
+		lat: -20.94,
+		lon: 55.28,
+		href: "https://candhis.cerema.fr/_public_/campagne.php?Y2FtcD05NzQwMw==",
+		orga: "CEREMA / Grand Port Maritime de La Réunion"
 	}
 ];
 
-/* src/plugin.svelte generated by Svelte v4.2.19 */
+/* src/components/Footer.svelte generated by Svelte v4.2.19 */
 
-function add_css(target) {
-	append_styles(target, "svelte-1a51rpe", "p.svelte-1a51rpe{line-height:1.8;color:#e7d6a6}img.svelte-1a51rpe{display:block;margin:0 auto}table.svelte-1a51rpe{width:100%;border-collapse:collapse;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color:#fff;border-radius:8px;overflow:hidden}th.svelte-1a51rpe{background-color:#cfbe8d;color:white;border-bottom:2px solid #ddd;text-align:center;padding:12px 15px;font-weight:bold}td.svelte-1a51rpe{border-bottom:1px solid #b8b7b7;text-align:center;padding:10px 15px}tr.svelte-1a51rpe:nth-child(even){background-color:#666666}tr.svelte-1a51rpe:nth-child(odd){background-color:#808080}tr.svelte-1a51rpe:hover{background-color:#ad8b64}@media(max-width: 600px){th.svelte-1a51rpe,td.svelte-1a51rpe{font-size:14px}}");
+function add_css$1(target) {
+	append_styles(target, "svelte-1cjh69x", ".footer.svelte-1cjh69x.svelte-1cjh69x{margin-top:2rem;margin-left:auto;margin-right:auto;background-color:#313131;border:0.05rem solid #7e7e7e;border-radius:0.8rem;padding:0.3rem 1rem;display:flex;gap:0.3rem;flex-direction:column;align-items:center;width:80%}.footer.svelte-1cjh69x .svelte-1cjh69x{user-select:text}.footer.svelte-1cjh69x p.svelte-1cjh69x{padding:0;margin:0}.footer.svelte-1cjh69x a.svelte-1cjh69x{text-decoration:underline}.footer.svelte-1cjh69x .links.svelte-1cjh69x{display:flex;gap:0.3rem;flex-wrap:wrap;row-gap:0}.footer.svelte-1cjh69x .links a.svelte-1cjh69x{padding:0 0.3rem;white-space:nowrap}.footer.svelte-1cjh69x .fineprint.svelte-1cjh69x{color:#e2d9ae;font-size:10px}");
 }
 
-function get_each_context(ctx, list, i) {
-	const child_ctx = ctx.slice();
-	child_ctx[10] = list[i];
-	return child_ctx;
-}
-
-// (178:4) {:else}
-function create_else_block_1(ctx) {
-	let h1;
+function create_fragment$1(ctx) {
+	let div;
+	let p0;
+	let t2;
+	let p1;
+	let t6;
+	let p2;
 
 	return {
 		c() {
-			h1 = element("h1");
-			h1.textContent = "Please select a wave buoy.";
+			div = element("div");
+			p0 = element("p");
+			p0.innerHTML = `Wave Buoys (FR) Plugin made by <a href="https://github.com/Egauvrit" target="_blank" class="svelte-1cjh69x">Egauvrit</a>`;
+			t2 = space();
+			p1 = element("p");
+			p1.innerHTML = `<a href="https://github.com/Egauvrit/windy-plugin-wave-buoys-fr" target="_blank" class="svelte-1cjh69x">Source</a> <a href="https://github.com/Egauvrit/windy-plugin-wave-buoys-fr/issues" target="_blank" class="svelte-1cjh69x">Issues</a>`;
+			t6 = space();
+			p2 = element("p");
+			p2.textContent = `windy-plugin-wave-buoys-fr@${config.version}`;
+			attr(p0, "class", "main svelte-1cjh69x");
+			attr(p1, "class", "links svelte-1cjh69x");
+			attr(p2, "class", "fineprint svelte-1cjh69x");
+			attr(div, "class", "footer svelte-1cjh69x");
 		},
 		m(target, anchor) {
-			insert(target, h1, anchor);
+			insert(target, div, anchor);
+			append(div, p0);
+			append(div, t2);
+			append(div, p1);
+			append(div, t6);
+			append(div, p2);
 		},
 		p: noop,
+		i: noop,
+		o: noop,
 		d(detaching) {
 			if (detaching) {
-				detach(h1);
+				detach(div);
 			}
 		}
 	};
 }
 
-// (174:4) {#if selectedBuoyName.length > 0}
-function create_if_block_1(ctx) {
+class Footer extends SvelteComponent {
+	constructor(options) {
+		super();
+		init(this, options, null, create_fragment$1, safe_not_equal, {}, add_css$1);
+	}
+}
+
+/* src/plugin.svelte generated by Svelte v4.2.19 */
+
+function add_css(target) {
+	append_styles(target, "svelte-15vt4mf", "p.svelte-15vt4mf{line-height:1.8;color:#e7d6a6}a.svelte-15vt4mf{text-decoration:underline}img.svelte-15vt4mf{display:block;margin:0 auto}.centered-text.svelte-15vt4mf{text-align:center;margin-top:2rem}.page-container.svelte-15vt4mf{display:flex;flex-direction:column;min-height:90vh}.content.svelte-15vt4mf{flex-grow:1}table.svelte-15vt4mf{width:100%;border-collapse:collapse;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color:#fff;border-radius:8px;overflow:hidden}th.svelte-15vt4mf{background-color:#cfbe8d;color:white;border-bottom:2px solid #ddd;text-align:center;padding:12px 15px;font-weight:bold}td.svelte-15vt4mf{border-bottom:1px solid #b8b7b7;text-align:center;padding:10px 15px}tr.svelte-15vt4mf:nth-child(even){background-color:#666666}tr.svelte-15vt4mf:nth-child(odd){background-color:#808080}tr.svelte-15vt4mf:hover{background-color:#ad8b64}@media(max-width: 600px){th.svelte-15vt4mf,td.svelte-15vt4mf{font-size:14px}}");
+}
+
+function get_each_context(ctx, list, i) {
+	const child_ctx = ctx.slice();
+	child_ctx[13] = list[i];
+	return child_ctx;
+}
+
+// (236:12) {:else}
+function create_else_block_1(ctx) {
+	let h3;
+	let t5;
+	let hr;
+	let t6;
+	let h2;
+
+	return {
+		c() {
+			h3 = element("h3");
+
+			h3.innerHTML = `This plugin displays in situ wave measurements for the French coast.<br/>
+                The data comes from the CANDHIS dataset, managed by CEREMA.<br/>
+                For more information, please visit this <a href="https://candhis.cerema.fr/" target="_blank" class="svelte-15vt4mf">website</a>.`;
+
+			t5 = space();
+			hr = element("hr");
+			t6 = space();
+			h2 = element("h2");
+			h2.textContent = "Please select a wave buoy location.";
+			attr(h2, "class", "centered-text svelte-15vt4mf");
+		},
+		m(target, anchor) {
+			insert(target, h3, anchor);
+			insert(target, t5, anchor);
+			insert(target, hr, anchor);
+			insert(target, t6, anchor);
+			insert(target, h2, anchor);
+		},
+		p: noop,
+		d(detaching) {
+			if (detaching) {
+				detach(h3);
+				detach(t5);
+				detach(hr);
+				detach(t6);
+				detach(h2);
+			}
+		}
+	};
+}
+
+// (200:12) {#if cnt > 0}
+function create_if_block(ctx) {
 	let h1;
 	let t0;
 	let t1;
 	let t2;
 	let t3;
+	let span;
+	let t4;
+	let t5;
+	let t6;
+	let t7;
+	let hr;
+	let t8;
+	let if_block_anchor;
+
+	function select_block_type_1(ctx, dirty) {
+		if (/*selectedBuoyData*/ ctx[1].length > 0) return create_if_block_1;
+		return create_else_block;
+	}
+
+	let current_block_type = select_block_type_1(ctx);
+	let if_block = current_block_type(ctx);
 
 	return {
 		c() {
 			h1 = element("h1");
-			t0 = text(/*selectedBuoyName*/ ctx[1]);
+			t0 = text(/*selectedBuoyName*/ ctx[2]);
 			t1 = text(" (");
-			t2 = text(/*selectedBuoyID*/ ctx[2]);
-			t3 = text(")");
+			t2 = text(/*selectedBuoyID*/ ctx[3]);
+			t3 = text(") \n                    ");
+			span = element("span");
+			t4 = text("[");
+			t5 = text(/*selectedBuoyOrga*/ ctx[4]);
+			t6 = text("]");
+			t7 = space();
+			hr = element("hr");
+			t8 = space();
+			if_block.c();
+			if_block_anchor = empty();
+			set_style(span, "font-size", "0.7em");
+			set_style(span, "color", "#888");
 		},
 		m(target, anchor) {
 			insert(target, h1, anchor);
@@ -914,20 +1092,48 @@ function create_if_block_1(ctx) {
 			append(h1, t1);
 			append(h1, t2);
 			append(h1, t3);
+			append(h1, span);
+			append(span, t4);
+			append(span, t5);
+			append(span, t6);
+			insert(target, t7, anchor);
+			insert(target, hr, anchor);
+			insert(target, t8, anchor);
+			if_block.m(target, anchor);
+			insert(target, if_block_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*selectedBuoyName*/ 2) set_data(t0, /*selectedBuoyName*/ ctx[1]);
-			if (dirty & /*selectedBuoyID*/ 4) set_data(t2, /*selectedBuoyID*/ ctx[2]);
+			if (dirty & /*selectedBuoyName*/ 4) set_data(t0, /*selectedBuoyName*/ ctx[2]);
+			if (dirty & /*selectedBuoyID*/ 8) set_data(t2, /*selectedBuoyID*/ ctx[3]);
+			if (dirty & /*selectedBuoyOrga*/ 16) set_data(t5, /*selectedBuoyOrga*/ ctx[4]);
+
+			if (current_block_type === (current_block_type = select_block_type_1(ctx)) && if_block) {
+				if_block.p(ctx, dirty);
+			} else {
+				if_block.d(1);
+				if_block = current_block_type(ctx);
+
+				if (if_block) {
+					if_block.c();
+					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+				}
+			}
 		},
 		d(detaching) {
 			if (detaching) {
 				detach(h1);
+				detach(t7);
+				detach(hr);
+				detach(t8);
+				detach(if_block_anchor);
 			}
+
+			if_block.d(detaching);
 		}
 	};
 }
 
-// (213:4) {:else}
+// (233:16) {:else}
 function create_else_block(ctx) {
 	let p;
 
@@ -935,7 +1141,7 @@ function create_else_block(ctx) {
 		c() {
 			p = element("p");
 			p.textContent = "No data available";
-			attr(p, "class", "svelte-1a51rpe");
+			attr(p, "class", "svelte-15vt4mf");
 		},
 		m(target, anchor) {
 			insert(target, p, anchor);
@@ -949,13 +1155,13 @@ function create_else_block(ctx) {
 	};
 }
 
-// (186:4) {#if selectedBuoyData.length > 0}
-function create_if_block(ctx) {
+// (206:16) {#if selectedBuoyData.length > 0}
+function create_if_block_1(ctx) {
 	let table;
 	let thead;
 	let t13;
 	let tbody;
-	let each_value = ensure_array_like(/*selectedBuoyData*/ ctx[0]);
+	let each_value = ensure_array_like(/*selectedBuoyData*/ ctx[1]);
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -966,7 +1172,7 @@ function create_if_block(ctx) {
 		c() {
 			table = element("table");
 			thead = element("thead");
-			thead.innerHTML = `<tr class="svelte-1a51rpe"><th class="svelte-1a51rpe">Date</th> <th class="svelte-1a51rpe">Hs</th> <th class="svelte-1a51rpe">Hmax</th> <th class="svelte-1a51rpe">Tp</th> <th class="svelte-1a51rpe">Dir.</th> <th class="svelte-1a51rpe">Spread</th> <th class="svelte-1a51rpe">Temp.</th></tr>`;
+			thead.innerHTML = `<tr class="svelte-15vt4mf"><th class="svelte-15vt4mf">Date</th> <th class="svelte-15vt4mf">Hs</th> <th class="svelte-15vt4mf">Hmax</th> <th class="svelte-15vt4mf">Tp</th> <th class="svelte-15vt4mf">Dir.</th> <th class="svelte-15vt4mf">Spread</th> <th class="svelte-15vt4mf">Temp.</th></tr>`;
 			t13 = space();
 			tbody = element("tbody");
 
@@ -974,7 +1180,7 @@ function create_if_block(ctx) {
 				each_blocks[i].c();
 			}
 
-			attr(table, "class", "svelte-1a51rpe");
+			attr(table, "class", "svelte-15vt4mf");
 		},
 		m(target, anchor) {
 			insert(target, table, anchor);
@@ -989,8 +1195,8 @@ function create_if_block(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*selectedBuoyData*/ 1) {
-				each_value = ensure_array_like(/*selectedBuoyData*/ ctx[0]);
+			if (dirty & /*selectedBuoyData*/ 2) {
+				each_value = ensure_array_like(/*selectedBuoyData*/ ctx[1]);
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -1022,35 +1228,35 @@ function create_if_block(ctx) {
 	};
 }
 
-// (200:8) {#each selectedBuoyData as buoy}
+// (220:20) {#each selectedBuoyData as buoy}
 function create_each_block(ctx) {
 	let tr;
 	let td0;
-	let t0_value = /*buoy*/ ctx[10][0] + "";
+	let t0_value = /*buoy*/ ctx[13][0] + "";
 	let t0;
 	let t1;
 	let td1;
-	let t2_value = /*buoy*/ ctx[10][1] + "";
+	let t2_value = /*buoy*/ ctx[13][1] + "";
 	let t2;
 	let t3;
 	let td2;
-	let t4_value = /*buoy*/ ctx[10][2] + "";
+	let t4_value = /*buoy*/ ctx[13][2] + "";
 	let t4;
 	let t5;
 	let td3;
-	let t6_value = /*buoy*/ ctx[10][3] + "";
+	let t6_value = /*buoy*/ ctx[13][3] + "";
 	let t6;
 	let t7;
 	let td4;
-	let t8_value = /*buoy*/ ctx[10][4] + "";
+	let t8_value = /*buoy*/ ctx[13][4] + "";
 	let t8;
 	let t9;
 	let td5;
-	let t10_value = /*buoy*/ ctx[10][5] + "";
+	let t10_value = /*buoy*/ ctx[13][5] + "";
 	let t10;
 	let t11;
 	let td6;
-	let t12_value = /*buoy*/ ctx[10][6] + "";
+	let t12_value = /*buoy*/ ctx[13][6] + "";
 	let t12;
 	let t13;
 
@@ -1078,14 +1284,14 @@ function create_each_block(ctx) {
 			td6 = element("td");
 			t12 = text(t12_value);
 			t13 = space();
-			attr(td0, "class", "svelte-1a51rpe");
-			attr(td1, "class", "svelte-1a51rpe");
-			attr(td2, "class", "svelte-1a51rpe");
-			attr(td3, "class", "svelte-1a51rpe");
-			attr(td4, "class", "svelte-1a51rpe");
-			attr(td5, "class", "svelte-1a51rpe");
-			attr(td6, "class", "svelte-1a51rpe");
-			attr(tr, "class", "svelte-1a51rpe");
+			attr(td0, "class", "svelte-15vt4mf");
+			attr(td1, "class", "svelte-15vt4mf");
+			attr(td2, "class", "svelte-15vt4mf");
+			attr(td3, "class", "svelte-15vt4mf");
+			attr(td4, "class", "svelte-15vt4mf");
+			attr(td5, "class", "svelte-15vt4mf");
+			attr(td6, "class", "svelte-15vt4mf");
+			attr(tr, "class", "svelte-15vt4mf");
 		},
 		m(target, anchor) {
 			insert(target, tr, anchor);
@@ -1112,13 +1318,13 @@ function create_each_block(ctx) {
 			append(tr, t13);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*selectedBuoyData*/ 1 && t0_value !== (t0_value = /*buoy*/ ctx[10][0] + "")) set_data(t0, t0_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t2_value !== (t2_value = /*buoy*/ ctx[10][1] + "")) set_data(t2, t2_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t4_value !== (t4_value = /*buoy*/ ctx[10][2] + "")) set_data(t4, t4_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t6_value !== (t6_value = /*buoy*/ ctx[10][3] + "")) set_data(t6, t6_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t8_value !== (t8_value = /*buoy*/ ctx[10][4] + "")) set_data(t8, t8_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t10_value !== (t10_value = /*buoy*/ ctx[10][5] + "")) set_data(t10, t10_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t12_value !== (t12_value = /*buoy*/ ctx[10][6] + "")) set_data(t12, t12_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t0_value !== (t0_value = /*buoy*/ ctx[13][0] + "")) set_data(t0, t0_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t2_value !== (t2_value = /*buoy*/ ctx[13][1] + "")) set_data(t2, t2_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t4_value !== (t4_value = /*buoy*/ ctx[13][2] + "")) set_data(t4, t4_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t6_value !== (t6_value = /*buoy*/ ctx[13][3] + "")) set_data(t6, t6_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t8_value !== (t8_value = /*buoy*/ ctx[13][4] + "")) set_data(t8, t8_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t10_value !== (t10_value = /*buoy*/ ctx[13][5] + "")) set_data(t10, t10_value);
+			if (dirty & /*selectedBuoyData*/ 2 && t12_value !== (t12_value = /*buoy*/ ctx[13][6] + "")) set_data(t12, t12_value);
 		},
 		d(detaching) {
 			if (detaching) {
@@ -1129,126 +1335,101 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
+	let section;
 	let div0;
 	let t1;
-	let section;
+	let div2;
 	let div1;
+	let t2;
+	let hr;
 	let t3;
-	let p0;
+	let p;
 	let t4;
-	let t5;
-	let hr0;
-	let t6;
-	let t7;
-	let hr1;
-	let t8;
-	let p1;
+	let footer;
+	let current;
 	let mounted;
 	let dispose;
 
 	function select_block_type(ctx, dirty) {
-		if (/*selectedBuoyName*/ ctx[1].length > 0) return create_if_block_1;
+		if (/*cnt*/ ctx[0] > 0) return create_if_block;
 		return create_else_block_1;
 	}
 
 	let current_block_type = select_block_type(ctx);
-	let if_block0 = current_block_type(ctx);
-
-	function select_block_type_1(ctx, dirty) {
-		if (/*selectedBuoyData*/ ctx[0].length > 0) return create_if_block;
-		return create_else_block;
-	}
-
-	let current_block_type_1 = select_block_type_1(ctx);
-	let if_block1 = current_block_type_1(ctx);
+	let if_block = current_block_type(ctx);
+	footer = new Footer({});
 
 	return {
 		c() {
-			div0 = element("div");
-			div0.textContent = `${/*title*/ ctx[3]}`;
-			t1 = space();
 			section = element("section");
+			div0 = element("div");
+			div0.textContent = `${/*title*/ ctx[5]}`;
+			t1 = space();
+			div2 = element("div");
 			div1 = element("div");
-			div1.textContent = `${/*title*/ ctx[3]}`;
+			if_block.c();
+			t2 = space();
+			hr = element("hr");
 			t3 = space();
-			p0 = element("p");
-			p0.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/1816/1816116.png" alt="Buoy" width="128" class="svelte-1a51rpe"/>`;
+			p = element("p");
+			p.innerHTML = `<img src="https://urbanvitaliz.fr/static/img/partners/logo_cerema.png" alt="Cerema" width="256" class="svelte-15vt4mf"/>`;
 			t4 = space();
-			if_block0.c();
-			t5 = space();
-			hr0 = element("hr");
-			t6 = space();
-			if_block1.c();
-			t7 = space();
-			hr1 = element("hr");
-			t8 = space();
-			p1 = element("p");
-			p1.innerHTML = `<img src="https://urbanvitaliz.fr/static/img/partners/logo_cerema.png" alt="Cerema" width="256" class="svelte-1a51rpe"/>`;
-			attr(div0, "class", "plugin__mobile-header");
-			attr(div1, "class", "plugin__title plugin__title--chevron-back");
-			attr(p0, "class", "mt-5 mb-20 svelte-1a51rpe");
-			attr(p1, "class", "mt-20 mb-5 svelte-1a51rpe");
+			create_component(footer.$$.fragment);
+			attr(div0, "class", "plugin__title plugin__title--chevron-back");
+			attr(div1, "class", "content svelte-15vt4mf");
+			attr(p, "class", "mt-20 mb-5 svelte-15vt4mf");
+			attr(div2, "class", "page-container svelte-15vt4mf");
 			attr(section, "class", "plugin__content");
 		},
 		m(target, anchor) {
-			insert(target, div0, anchor);
-			insert(target, t1, anchor);
 			insert(target, section, anchor);
-			append(section, div1);
-			append(section, t3);
-			append(section, p0);
-			append(section, t4);
-			if_block0.m(section, null);
-			append(section, t5);
-			append(section, hr0);
-			append(section, t6);
-			if_block1.m(section, null);
-			append(section, t7);
-			append(section, hr1);
-			append(section, t8);
-			append(section, p1);
+			append(section, div0);
+			append(section, t1);
+			append(section, div2);
+			append(div2, div1);
+			if_block.m(div1, null);
+			append(div1, t2);
+			append(div1, hr);
+			append(div2, t3);
+			append(div2, p);
+			append(div2, t4);
+			mount_component(footer, div2, null);
+			current = true;
 
 			if (!mounted) {
-				dispose = listen(div1, "click", /*click_handler*/ ctx[4]);
+				dispose = listen(div0, "click", /*click_handler*/ ctx[6]);
 				mounted = true;
 			}
 		},
 		p(ctx, [dirty]) {
-			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
-				if_block0.p(ctx, dirty);
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+				if_block.p(ctx, dirty);
 			} else {
-				if_block0.d(1);
-				if_block0 = current_block_type(ctx);
+				if_block.d(1);
+				if_block = current_block_type(ctx);
 
-				if (if_block0) {
-					if_block0.c();
-					if_block0.m(section, t5);
-				}
-			}
-
-			if (current_block_type_1 === (current_block_type_1 = select_block_type_1(ctx)) && if_block1) {
-				if_block1.p(ctx, dirty);
-			} else {
-				if_block1.d(1);
-				if_block1 = current_block_type_1(ctx);
-
-				if (if_block1) {
-					if_block1.c();
-					if_block1.m(section, t7);
+				if (if_block) {
+					if_block.c();
+					if_block.m(div1, t2);
 				}
 			}
 		},
-		i: noop,
-		o: noop,
+		i(local) {
+			if (current) return;
+			transition_in(footer.$$.fragment, local);
+			current = true;
+		},
+		o(local) {
+			transition_out(footer.$$.fragment, local);
+			current = false;
+		},
 		d(detaching) {
 			if (detaching) {
-				detach(div0);
-				detach(t1);
 				detach(section);
 			}
 
-			if_block0.d();
-			if_block1.d();
+			if_block.d();
+			destroy_component(footer);
 			mounted = false;
 			dispose();
 		}
@@ -1267,11 +1448,13 @@ function getIcon(size) {
 
 function instance($$self, $$props, $$invalidate) {
 	const { title } = config;
+	let cnt = 0;
 	let buoyMarkers = [];
 	let buoyData = [];
 	let selectedBuoyData = [];
 	let selectedBuoyName = [];
 	let selectedBuoyID = [];
+	let selectedBuoyOrga = [];
 
 	function updateIconsOnZoom() {
 		const zoom = map.getZoom();
@@ -1319,15 +1502,17 @@ function instance($$self, $$props, $$invalidate) {
 
 	onMount(() => {
 		buoyInfo.forEach(buoy => {
-			const { ID, name, lat, lon, href } = buoy;
+			const { ID, name, lat, lon, href, orga } = buoy;
 			const buoyMarker = L.marker([lat, lon], { icon: getIcon(8 + map.getZoom() * 2) }).addTo(map);
 			buoyMarker.bindPopup(`<b>${name}</b>`);
 			buoyMarkers.push({ marker: buoyMarker, ID });
 
 			buoyMarker.on('click', () => {
-				$$invalidate(0, selectedBuoyData = buoyData[ID] || []);
-				$$invalidate(1, selectedBuoyName = name);
-				$$invalidate(2, selectedBuoyID = ID);
+				$$invalidate(1, selectedBuoyData = buoyData[ID] || []);
+				$$invalidate(2, selectedBuoyName = name);
+				$$invalidate(3, selectedBuoyID = ID);
+				$$invalidate(4, selectedBuoyOrga = orga);
+				$$invalidate(0, cnt = 1);
 			});
 		});
 
@@ -1336,13 +1521,23 @@ function instance($$self, $$props, $$invalidate) {
 	});
 
 	onDestroy(() => {
+
 		buoyMarkers.forEach(({ marker }) => {
 			map.removeLayer(marker);
 		});
 	});
 
 	const click_handler = () => bcast.emit('rqstOpen', 'menu');
-	return [selectedBuoyData, selectedBuoyName, selectedBuoyID, title, click_handler];
+
+	return [
+		cnt,
+		selectedBuoyData,
+		selectedBuoyName,
+		selectedBuoyID,
+		selectedBuoyOrga,
+		title,
+		click_handler
+	];
 }
 
 class Plugin extends SvelteComponent {
