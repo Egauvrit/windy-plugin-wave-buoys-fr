@@ -3,12 +3,14 @@
     import { map } from '@windy/map';
     import { onMount, onDestroy } from 'svelte';
     import config from './pluginConfig';
-    import buoyInfo from './buoys';
+    import buoyInfo from './buoys/buoys';
+    import Footer from './components/Footer.svelte';
 
     const { title } = config;
     // URL of the page you want to scrape
     const url = "http://localhost:4000/scrape-data";
 
+    let cnt = 0;
     let marker: L.Marker | null = null;
     let loader = false;
     let buoyMarkers = [];
@@ -16,6 +18,7 @@
     let selectedBuoyData = []; 
     let selectedBuoyName = [];
     let selectedBuoyID = [];
+    let selectedBuoyOrga = [];
 
     // Function to get icon based on zoom level
     function getIcon(size) {
@@ -34,19 +37,6 @@
             marker.setIcon(getIcon(iconSize));
         });
     }
-
-    // Define custom icon for markers
-    const normalIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/1816/1816116.png',
-        iconSize: [22, 22], // Size of the icon
-        iconAnchor: [11, 11] // Anchor point of the icon
-    });
-
-    const selectedIcon = L.icon({
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/1816/1816116.png',
-        iconSize: [42, 42], // Larger size for selected
-        iconAnchor: [21, 21]
-    });
     
     async function fetchData(){
         try {
@@ -87,7 +77,7 @@
     onMount(() => {
         // Loop through each buoy data and add a marker for each
         buoyInfo.forEach(buoy => {
-            const { ID, name, lat, lon, href } = buoy;
+            const { ID, name, lat, lon, href, orga } = buoy;
             const buoyMarker = L.marker([lat, lon], { icon: getIcon(8+map.getZoom()*2) }).addTo(map);
 
             // Add a basic popup (or empty) to be updated later
@@ -103,6 +93,8 @@
                 selectedBuoyData = buoyData[ID] || []; // Update selected data using the dictionary
                 selectedBuoyName = name; // Update selected data
                 selectedBuoyID = ID;
+                selectedBuoyOrga = orga;
+                cnt = 1;
             });
         });
         
@@ -119,10 +111,10 @@
     onDestroy(() => {
         // Your plugin will be destroyed
         // Make sure you cleanup after yourself
-        // if(marker) {
-        //     marker.remove();
-        //     marker = null;
-        // }
+        if(marker) {
+            marker.remove();
+            marker = null;
+        }
         buoyMarkers.forEach(({marker}) => {
             map.removeLayer(marker);
         });
@@ -136,9 +128,18 @@
         color: rgb(231, 214, 166);
     }
 
+    a span, a{
+        text-decoration: underline;
+    }
+
     img {
         display: block;
         margin: 0 auto;
+    }
+
+    .centered-text {
+        text-align: center;
+        margin-top: 2rem; /* Optional: add space above */
     }
     
     /* Table container styling */
@@ -148,6 +149,16 @@
         margin: 20px 0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better depth */
         border-radius: 8px; /* Rounded corners */
+    }
+
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 90vh; /* Full height of viewport */
+    }
+
+    .content {
+        flex-grow: 1; /* Take up remaining space */
     }
 
     /* Table styling */
@@ -198,9 +209,6 @@
     }
 </style>
 
-<div class="plugin__mobile-header">
-    { title }
-</div>
 <section class="plugin__content">
     <div
         class="plugin__title plugin__title--chevron-back"
@@ -209,57 +217,62 @@
     { title }
     </div>
 
-    <p class="mt-5 mb-20">
+    <!-- <p class="mt-5 mb-20">
         <img src="https://cdn-icons-png.flaticon.com/512/1816/1816116.png" alt="Buoy" width="128"/>
-    </p>
+    </p> -->
+    <div class="page-container">
+        <div class="content">
+            {#if cnt > 0}
+                <h1>
+                    {selectedBuoyName} ({selectedBuoyID}) 
+                    <span style="font-size: 0.7em; color: #888;">[{selectedBuoyOrga}]</span>
+                </h1>
+                <hr />
+                {#if selectedBuoyData.length > 0}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Hs</th>
+                        <th>Hmax</th>
+                        <th>Tp</th>
+                        <th>Dir.</th>
+                        <th>Spread</th>
+                        <th>Temp.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {#each selectedBuoyData as buoy}
+                        <tr>
+                        <td>{buoy[0]}</td>
+                        <td>{buoy[1]}</td>
+                        <td>{buoy[2]}</td>
+                        <td>{buoy[3]}</td>
+                        <td>{buoy[4]}</td>
+                        <td>{buoy[5]}</td>
+                        <td>{buoy[6]}</td>
+                        </tr>
+                    {/each}
+                    </tbody>
+                </table>
+                {:else}
+                <p>No data available</p>
+                {/if}
+            {:else}
+            <h3>
+                This plugin displays in situ wave measurements for the French coast.<br>
+                The data comes from the CANDHIS dataset, managed by CEREMA.<br>
+                For more information, please visit this <a href="https://candhis.cerema.fr/" target="_blank">website</a>.
+            </h3>
+            <hr />
+            <h2 class="centered-text">Please select a wave buoy location.</h2>
+            {/if}
+            <hr /> 
+        </div>
+        <p class="mt-20 mb-5">
+            <img src="https://urbanvitaliz.fr/static/img/partners/logo_cerema.png" alt="Cerema" width="256"/>
+        </p>
+        <Footer />
 
-    {#if selectedBuoyName.length > 0}
-    <h1>
-        {selectedBuoyName} ({selectedBuoyID})
-    </h1> 
-    {:else}
-    <h1>
-        Please select a wave buoy.
-    </h1>
-    {/if}
-
-    <hr />
-
-    {#if selectedBuoyData.length > 0}
-    <table>
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Hs</th>
-            <th>Hmax</th>
-            <th>Tp</th>
-            <th>Dir.</th>
-            <th>Spread</th>
-            <th>Temp.</th>
-        </tr>
-        </thead>
-        <tbody>
-        {#each selectedBuoyData as buoy}
-            <tr>
-            <td>{buoy[0]}</td>
-            <td>{buoy[1]}</td>
-            <td>{buoy[2]}</td>
-            <td>{buoy[3]}</td>
-            <td>{buoy[4]}</td>
-            <td>{buoy[5]}</td>
-            <td>{buoy[6]}</td>
-            </tr>
-        {/each}
-        </tbody>
-    </table>
-    {:else}
-    <p>No data available</p>
-    {/if}
-
-    <hr />
-    
-    <p class="mt-20 mb-5">
-        <img src="https://urbanvitaliz.fr/static/img/partners/logo_cerema.png" alt="Cerema" width="256"/>
-    </p>
-
+    </div>
 </section>

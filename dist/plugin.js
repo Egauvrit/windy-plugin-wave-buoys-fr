@@ -9,9 +9,9 @@ const __pluginConfig =  {
   "desktopUI": "rhpane",
   "mobileUI": "fullscreen",
   "desktopWidth": 600,
-  "built": 1725625503959,
-  "builtReadable": "2024-09-06T12:25:03.959Z",
-  "screenshot": "screenshot.jpg"
+  "built": 1725626705231,
+  "builtReadable": "2024-09-06T12:45:05.231Z",
+  "screenshot": "screenshot.png"
 };
 
 // transformCode: import bcast from '@windy/broadcast';
@@ -867,11 +867,11 @@ function add_css(target) {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[12] = list[i];
+	child_ctx[10] = list[i];
 	return child_ctx;
 }
 
-// (188:4) {:else}
+// (178:4) {:else}
 function create_else_block_1(ctx) {
 	let h1;
 
@@ -892,7 +892,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (184:4) {#if selectedBuoyName.length > 0}
+// (174:4) {#if selectedBuoyName.length > 0}
 function create_if_block_1(ctx) {
 	let h1;
 	let t0;
@@ -927,7 +927,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (223:4) {:else}
+// (213:4) {:else}
 function create_else_block(ctx) {
 	let p;
 
@@ -949,7 +949,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (196:4) {#if selectedBuoyData.length > 0}
+// (186:4) {#if selectedBuoyData.length > 0}
 function create_if_block(ctx) {
 	let table;
 	let thead;
@@ -1022,35 +1022,35 @@ function create_if_block(ctx) {
 	};
 }
 
-// (210:8) {#each selectedBuoyData as buoy}
+// (200:8) {#each selectedBuoyData as buoy}
 function create_each_block(ctx) {
 	let tr;
 	let td0;
-	let t0_value = /*buoy*/ ctx[12][0] + "";
+	let t0_value = /*buoy*/ ctx[10][0] + "";
 	let t0;
 	let t1;
 	let td1;
-	let t2_value = /*buoy*/ ctx[12][1] + "";
+	let t2_value = /*buoy*/ ctx[10][1] + "";
 	let t2;
 	let t3;
 	let td2;
-	let t4_value = /*buoy*/ ctx[12][2] + "";
+	let t4_value = /*buoy*/ ctx[10][2] + "";
 	let t4;
 	let t5;
 	let td3;
-	let t6_value = /*buoy*/ ctx[12][3] + "";
+	let t6_value = /*buoy*/ ctx[10][3] + "";
 	let t6;
 	let t7;
 	let td4;
-	let t8_value = /*buoy*/ ctx[12][4] + "";
+	let t8_value = /*buoy*/ ctx[10][4] + "";
 	let t8;
 	let t9;
 	let td5;
-	let t10_value = /*buoy*/ ctx[12][5] + "";
+	let t10_value = /*buoy*/ ctx[10][5] + "";
 	let t10;
 	let t11;
 	let td6;
-	let t12_value = /*buoy*/ ctx[12][6] + "";
+	let t12_value = /*buoy*/ ctx[10][6] + "";
 	let t12;
 	let t13;
 
@@ -1112,13 +1112,13 @@ function create_each_block(ctx) {
 			append(tr, t13);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*selectedBuoyData*/ 1 && t0_value !== (t0_value = /*buoy*/ ctx[12][0] + "")) set_data(t0, t0_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t2_value !== (t2_value = /*buoy*/ ctx[12][1] + "")) set_data(t2, t2_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t4_value !== (t4_value = /*buoy*/ ctx[12][2] + "")) set_data(t4, t4_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t6_value !== (t6_value = /*buoy*/ ctx[12][3] + "")) set_data(t6, t6_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t8_value !== (t8_value = /*buoy*/ ctx[12][4] + "")) set_data(t8, t8_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t10_value !== (t10_value = /*buoy*/ ctx[12][5] + "")) set_data(t10, t10_value);
-			if (dirty & /*selectedBuoyData*/ 1 && t12_value !== (t12_value = /*buoy*/ ctx[12][6] + "")) set_data(t12, t12_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t0_value !== (t0_value = /*buoy*/ ctx[10][0] + "")) set_data(t0, t0_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t2_value !== (t2_value = /*buoy*/ ctx[10][1] + "")) set_data(t2, t2_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t4_value !== (t4_value = /*buoy*/ ctx[10][2] + "")) set_data(t4, t4_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t6_value !== (t6_value = /*buoy*/ ctx[10][3] + "")) set_data(t6, t6_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t8_value !== (t8_value = /*buoy*/ ctx[10][4] + "")) set_data(t8, t8_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t10_value !== (t10_value = /*buoy*/ ctx[10][5] + "")) set_data(t10, t10_value);
+			if (dirty & /*selectedBuoyData*/ 1 && t12_value !== (t12_value = /*buoy*/ ctx[10][6] + "")) set_data(t12, t12_value);
 		},
 		d(detaching) {
 			if (detaching) {
@@ -1281,18 +1281,6 @@ function instance($$self, $$props, $$invalidate) {
 			marker.setIcon(getIcon(iconSize));
 		});
 	}
-
-	L.icon({
-		iconUrl: 'https://cdn-icons-png.flaticon.com/512/1816/1816116.png',
-		iconSize: [22, 22],
-		iconAnchor: [11, 11]
-	});
-
-	L.icon({
-		iconUrl: 'https://cdn-icons-png.flaticon.com/512/1816/1816116.png',
-		iconSize: [42, 42],
-		iconAnchor: [21, 21]
-	});
 
 	async function fetchData() {
 		try {

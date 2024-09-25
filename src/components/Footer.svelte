@@ -3,32 +3,31 @@
 
 </script>
 
-
-
 <div class="footer">
     <p class="main">
-        Sun Position Plugin made by <a href="https://jacobsjo.eu" target="_blank">jacobsjo</a>
+        Wave Buoys (FR) Plugin made by <a href="https://github.com/Egauvrit" target="_blank">Egauvrit</a>
     </p>
-    <a href="https://github.com/sponsors/jacobsjo" class="support">♥ <span>Sponsor me on GitHub</span></a>
     <p class="links">
-        <a href="https://community.windy.com/topic/32647/sun-position-plugin-v2" target="_blank">Community Post</a>
-        <a href="https://github.com/jacobsjo/windy-plugin-sun-position-v2" target="_blank">Source</a>
-        <a href="https://github.com/jacobsjo/windy-plugin-sun-position-v2/issues" target="_blank">Issues</a>
+        <a href="https://github.com/Egauvrit/windy-plugin-wave-buoys-fr" target="_blank">Source</a>
+        <a href="https://github.com/Egauvrit/windy-plugin-wave-buoys-fr/issues" target="_blank">Issues</a>
     </p>
-    <p class="fineprint">windy-plugin-sun-position-v2@{config.version}</p>
+    <p class="fineprint">windy-plugin-wave-buoys-fr@{config.version}</p>
 </div>
 
 <style lang="less">
     .footer{
-        margin-top: 0.6rem;
-        background-color: rgb(36, 36, 36);
-        border: 0.1rem solid rgb(179, 179, 179);
-        border-radius: 1rem;
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: rgb(49, 49, 49);
+        border: 0.05rem solid rgb(126, 126, 126);
+        border-radius: 0.8rem;
         padding: 0.3rem 1rem;
         display: flex;
         gap: 0.3rem;
         flex-direction: column;
         align-items: center;
+        width: 80%;
 
         * {
             user-select: text;
@@ -44,7 +43,7 @@
         }
 
         .support {
-            color: rgb(255, 255, 194);
+            color: rgb(226, 217, 174);
             text-decoration: none;
         }
 
@@ -62,7 +61,7 @@
         }
 
         .fineprint{
-            color: rgb(172, 172, 172);
+            color: rgb(226, 217, 174);
             font-size: 10px;
         }
     }
